@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kenobi VS Vader</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="shortcut icon"
+      href="./img/light-saber.png"
+      type="image/x-icon"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  </head>
+
+  <body>
+    <div id="app">
+      <div id="bgsw">
+        <div class="panel scores">
+          <div class="score">
+            <img
+              src="./img/obiwan-sm.jpg"
+              alt="obi"
+              width="200"
+              class="blink1"
+            />
+            <h1>obi-wan kenobi</h1>
+            <div class="life-bar">
+              <div
+                class="life"
+                :class="{danger: playerLife < 20}"
+                :style="{width: playerLife + '%'}"
+              ></div>
+            </div>
+            <div>{{ playerLife }}</div>
+          </div>
+          <div class="score">
+            <img
+              src="./img/darthvader-sm.jpg"
+              alt="vader"
+              width="200"
+              class="blink"
+            />
+            <h1>darth vader</h1>
+            <div class="life-bar">
+              <div
+                class="life"
+                :class="{danger: monsterLife < 20}"
+                :style="{width: monsterLife + '%'}"
+              ></div>
+            </div>
+            <div>{{ monsterLife }}</div>
+          </div>
+        </div>
+        <div v-if="hasResult" class="panel result">
+          <div v-if="monsterLife == 0" class="win">You Win!!!</div>
+          <div v-else class="lose">You Lose!!!</div>
+        </div>
+        <div class="panel buttons">
+          <template v-if="running">
+            <button class="btn attack" @click="attack(false)">Attack</button>
+            <button class="btn special-attack" @click="attack(true)">
+              Special Attack
+            </button>
+            <button class="btn heal" @click="healAndHurt">Heal</button>
+            <button class="btn give-up" @click="running= false">Give Up</button>
+          </template>
+          <button v-else class="btn new-game" @click="startGame">
+            New Game
+          </button>
+        </div>
+      </div>
+      <div class="panel logs" v-if="logs.length">
+        <ul>
+          <li v-for="log in logs" :class="log.css" class="log">
+            {{ log.text }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
